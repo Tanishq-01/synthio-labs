@@ -91,3 +91,58 @@ Traceback (most recent call last):
   File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/grpc_helpers_async.py", line 89, in __await__
     raise exceptions.from_grpc_error(rpc_error) from rpc_error
 google.api_core.exceptions.NotFound: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+2026-01-31 03:19:04,640 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 03:19:04,657 [INFO] main:lifespan:28: Application starting up...
+2026-01-31 03:19:10,466 [INFO] openai_service:generate_slide_narration:181: Attempting to generate narration for slide 2...
+2026-01-31 03:19:10,469 [DEBUG] grpc._cython.cygrpc:__init__:369: [_cygrpc] Loaded running loop: id(loop)=4837796432
+2026-01-31 03:19:10,469 [DEBUG] grpc._cython.cygrpc:__init__:370: Using AsyncIOEngine.POLLER as I/O engine
+2026-01-31 03:19:10,469 [DEBUG] grpc._cython.cygrpc:__init__:370: [_cygrpc] Loaded running loop: id(loop)=4837796432
+2026-01-31 03:19:10,478 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4837796432
+2026-01-31 03:19:11,455 [ERROR] openai_service:generate_slide_narration:201: Error during model generation for slide 2: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+Traceback (most recent call last):
+  File "/Users/tanishqagarwal/slide-ai/backend/openai_service.py", line 189, in generate_slide_narration
+    response = await narration_model.generate_content_async(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/generativeai/generative_models.py", line 385, in generate_content_async
+    response = await self._async_client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/ai/generativelanguage_v1beta/services/generative_service/async_client.py", line 406, in generate_content
+    response = await rpc(
+               ^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 231, in retry_wrapped_func
+    return await retry_target(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 163, in retry_target
+    next_sleep = _retry_error_helper(
+        exc,
+    ...<6 lines>...
+        timeout,
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 158, in retry_target
+    return await target()
+           ^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/grpc_helpers_async.py", line 89, in __await__
+    raise exceptions.from_grpc_error(rpc_error) from rpc_error
+google.api_core.exceptions.NotFound: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+2026-01-31 03:20:29,409 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 03:20:29,428 [INFO] main:lifespan:28: Application starting up...
+2026-01-31 03:20:31,647 [INFO] openai_service:generate_slide_narration:181: Attempting to generate narration for slide 2...
+2026-01-31 03:20:31,651 [DEBUG] grpc._cython.cygrpc:__init__:369: [_cygrpc] Loaded running loop: id(loop)=4632275536
+2026-01-31 03:20:31,651 [DEBUG] grpc._cython.cygrpc:__init__:370: Using AsyncIOEngine.POLLER as I/O engine
+2026-01-31 03:20:31,652 [DEBUG] grpc._cython.cygrpc:__init__:370: [_cygrpc] Loaded running loop: id(loop)=4632275536
+2026-01-31 03:20:31,663 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4632275536
+2026-01-31 03:20:36,655 [INFO] openai_service:generate_slide_narration:193: Successfully generated narration for slide 2.
+2026-01-31 03:21:19,487 [INFO] openai_service:generate_slide_narration:181: Attempting to generate narration for slide 2...
+2026-01-31 03:21:19,490 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4632275536
+2026-01-31 03:21:23,531 [INFO] openai_service:generate_slide_narration:193: Successfully generated narration for slide 2.

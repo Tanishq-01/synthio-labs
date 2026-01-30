@@ -181,7 +181,7 @@ Keep it conversational and under 30 seconds. Don't read bullet points verbatim."
         logger.info(f"Attempting to generate narration for slide {slide_id}...")
         
         narration_model = genai.GenerativeModel(
-            model_name="gemini-1.5-flash",
+            model_name="gemini-flash-latest",
             system_instruction="You are an engaging presentation narrator."
         )
 
