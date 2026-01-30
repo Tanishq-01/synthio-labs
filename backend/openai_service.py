@@ -1,172 +1,115 @@
 """
-Gemini service for AI chat with function calling for slide navigation.
+Gemini-powered AI Presentation Agent.
+Autonomous slide presenter with voice interaction support.
 """
 
 import os
-import google.generativeai as genai
 import logging
-from slides import get_slides_context, get_slide_count, get_slide
+import google.generativeai as genai
+from slides import get_slides_context, get_slide_count, get_slide, get_current_topic
 
 logger = logging.getLogger(__name__)
+
 # Configure Gemini
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-# Function declarations for slide control (Gemini format)
-SLIDE_TOOLS = [
-    genai.protos.Tool(
-        function_declarations=[
-            genai.protos.FunctionDeclaration(
-                name="go_to_slide",
-                description="Navigate to a specific slide number. Use this when the user asks to go to a particular slide or when you want to jump to a relevant slide based on the conversation.",
-                parameters=genai.protos.Schema(
-                    type=genai.protos.Type.OBJECT,
-                    properties={
-                        "slide_number": genai.protos.Schema(
-                            type=genai.protos.Type.INTEGER,
-                            description=f"The slide number to navigate to (1-{get_slide_count()})"
-                        )
-                    },
-                    required=["slide_number"]
-                )
-            ),
-            genai.protos.FunctionDeclaration(
-                name="next_slide",
-                description="Move to the next slide in the presentation. Use this when continuing the presentation flow or when the user asks to move forward.",
-                parameters=genai.protos.Schema(
-                    type=genai.protos.Type.OBJECT,
-                    properties={}
-                )
-            ),
-            genai.protos.FunctionDeclaration(
-                name="previous_slide",
-                description="Go back to the previous slide. Use this when the user wants to revisit the previous content.",
-                parameters=genai.protos.Schema(
-                    type=genai.protos.Type.OBJECT,
-                    properties={}
-                )
-            )
-        ]
-    )
-]
 
-SYSTEM_PROMPT = f"""You are an AI presentation assistant delivering a presentation about Machine Learning.
-You have {get_slide_count()} slides to present.
+def get_presenter_prompt():
+    """Generate the presenter prompt with current slide context."""
+    topic = get_current_topic() or "the presentation topic"
+    slide_count = get_slide_count() or 6
+
+    return f"""You are an AI presentation agent delivering a 1:1 presentation about {topic}.
+You are speaking directly to ONE person, not an audience. Use "you" not "everyone" or "audience".
+You have {slide_count} slides to present.
 
 {get_slides_context()}
 
-Your role:
-1. Present each slide clearly and engagingly when asked to start or continue
-2. Answer questions from the audience naturally
-3. Use the slide navigation functions when appropriate:
-   - Move to next slide when you've finished presenting the current one
-   - Jump to a specific slide if a question relates to that topic
-   - Go back if the user wants to revisit something
-4. Keep responses conversational and concise (2-4 sentences typically)
-5. If asked about the current slide, refer to the slide content you're presenting
+IMPORTANT BEHAVIORS:
+1. When presenting a slide, give a natural, engaging explanation. Don't just read bullet points.
+2. When answering a question, ALWAYS determine which slide is most relevant and navigate to it.
+3. Speak directly and personally - this is a 1:1 conversation.
+4. After answering a question, briefly mention you'll continue from that slide.
 
-Always respond in a natural, presenter-like manner. You're speaking to an audience, so be engaging but professional."""
+You MUST use the go_to_slide function whenever:
+- The person asks a question about a specific topic (go to the relevant slide)
+- They ask to see something specific
+- The content being discussed matches a different slide better
+"""
 
-# Create the model
-model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash",
-    tools=SLIDE_TOOLS,
-    system_instruction=SYSTEM_PROMPT
+
+def get_slide_tools():
+    """Get the slide navigation tools with current slide count."""
+    slide_count = get_slide_count() or 6
+    return [
+        genai.protos.Tool(
+            function_declarations=[
+                genai.protos.FunctionDeclaration(
+                    name="go_to_slide",
+                    description="Navigate to the most relevant slide. ALWAYS use this when answering questions to show the relevant content.",
+                    parameters=genai.protos.Schema(
+                        type=genai.protos.Type.OBJECT,
+                        properties={
+                            "slide_number": genai.protos.Schema(
+                                type=genai.protos.Type.INTEGER,
+                                description=f"The slide number (1-{slide_count}) most relevant to the topic"
+                            )
+                        },
+                        required=["slide_number"]
+                    )
+                )
+            ]
+        )
+    ]
+
+
+def get_qa_model():
+    """Get the Q&A model with current context."""
+    return genai.GenerativeModel(
+        model_name="models/gemini-2.5-flash-lite",
+        tools=get_slide_tools(),
+        system_instruction=get_presenter_prompt()
+    )
+
+
+# Model for narration (doesn't need dynamic tools)
+narration_model = genai.GenerativeModel(
+    model_name="models/gemini-2.5-flash-lite",
+    system_instruction="""You are an engaging presentation narrator giving a 1:1 presentation.
+Speak directly to the person (use "you", not "everyone" or "audience").
+Generate detailed, thorough narrations of 75-100 words per slide.
+Be natural, conversational, and personal while providing substantive explanations."""
 )
 
 
-async def generate_response(
-    user_message: str,
-    conversation_history: list,
-    current_slide: int
-) -> dict:
+async def generate_slide_narration(slide_id: int) -> dict:
     """
-    Generate a response using Gemini with function calling for slide navigation.
-
-    Returns:
-        dict with keys:
-        - response: str (the AI's text response)
-        - slide_action: dict or None (slide navigation action if any)
+    Generate narration for a slide. Used for automatic presentation.
+    Returns dict with narration text and next slide number.
     """
-    result = {
-        "response": "",
-        "slide_action": None
-    }
-
-    # Build conversation for Gemini
-    # Convert OpenAI-style history to Gemini format
-    gemini_history = []
-    for msg in conversation_history:
-        role = "user" if msg["role"] == "user" else "model"
-        gemini_history.append({
-            "role": role,
-            "parts": [msg["content"]]
-        })
-
-    # Create chat session with history
-    chat = model.start_chat(history=gemini_history)
-
-    # Add context about current slide to the message
-    context_message = f"[Current slide: {current_slide}]\n\nUser: {user_message}"
-
-    # Generate response
-    response = chat.send_message(context_message)
-
-    # Check for function calls
-    if response.candidates[0].content.parts:
-        for part in response.candidates[0].content.parts:
-            if hasattr(part, 'function_call') and part.function_call:
-                fc = part.function_call
-                function_name = fc.name
-
-                if function_name == "go_to_slide":
-                    slide_num = fc.args.get("slide_number", 1)
-                    result["slide_action"] = {
-                        "action": "go_to",
-                        "slide_number": int(slide_num)
-                    }
-                elif function_name == "next_slide":
-                    result["slide_action"] = {
-                        "action": "next"
-                    }
-                elif function_name == "previous_slide":
-                    result["slide_action"] = {
-                        "action": "previous"
-                    }
-
-                # Send function response back to get the text reply
-                func_response = chat.send_message(
-                    genai.protos.Content(
-                        parts=[genai.protos.Part(
-                            function_response=genai.protos.FunctionResponse(
-                                name=function_name,
-                                response={"result": f"Slide navigation executed: {function_name}"}
-                            )
-                        )]
-                    )
-                )
-                result["response"] = func_response.text
-                return result
-
-            elif hasattr(part, 'text') and part.text:
-                result["response"] = part.text
-
-    if not result["response"]:
-        result["response"] = response.text
-
-    return result
-
-
-async def generate_slide_narration(slide_id: int) -> str:
-    """Generate narration for a specific slide with error handling."""
     slide = get_slide(slide_id)
-    
-    if not slide:
-        logger.warning(f"Slide with ID {slide_id} not found.")
-        return "Slide not found."
+    total_slides = get_slide_count()
+    topic = get_current_topic() or "this topic"
 
-    # Preparing the prompt
+    if not slide:
+        logger.warning(f"Slide {slide_id} not found")
+        return {
+            "narration": "Slide not found.",
+            "current_slide": slide_id,
+            "has_next": False
+        }
+
     content_list = "\n".join(f"- {point}" for point in slide.get('content', []))
-    prompt = f"""Generate a brief, engaging narration for this slide:
+
+    # Customize prompt based on slide position - 1:1 tone
+    if slide_id == 1:
+        intro = f"This is the opening slide about {topic}. Welcome the person warmly, introduce the topic, and let them know what they'll learn today."
+    elif slide_id == total_slides:
+        intro = "This is the final slide. Summarize the key takeaways, wrap up thoughtfully, and thank them for their time."
+    else:
+        intro = f"This is slide {slide_id} of {total_slides}. Present it thoroughly with good explanations and context."
+
+    prompt = f"""{intro}
 
 Title: {slide.get('title', 'Untitled')}
 Content:
@@ -174,29 +117,112 @@ Content:
 
 Speaker Notes: {slide.get('speaker_notes', '')}
 
-Keep it conversational and under 30 seconds. Don't read bullet points verbatim."""
+Generate an engaging narration of 75-100 words. Speak directly to the person (use "you", not "everyone").
+Expand on each point with examples or context. Be conversational and explain concepts clearly - don't just read bullet points.
+Make sure to cover all the key points on the slide."""
 
     try:
-        # Log the attempt and the prompt length
-        logger.info(f"Attempting to generate narration for slide {slide_id}...")
-        
-        narration_model = genai.GenerativeModel(
-            model_name="gemini-flash-latest",
-            system_instruction="You are an engaging presentation narrator."
-        )
-
-        # Making the API call
+        logger.info(f"Generating narration for slide {slide_id}")
         response = await narration_model.generate_content_async(prompt)
-        
-        # Verify if the response actually contains text
+
         if response and response.text:
-            logger.info(f"Successfully generated narration for slide {slide_id}.")
-            return response.text
+            return {
+                "narration": response.text,
+                "current_slide": slide_id,
+                "has_next": slide_id < total_slides,
+                "next_slide": slide_id + 1 if slide_id < total_slides else None
+            }
         else:
-            logger.error("Model returned an empty response (possibly blocked by safety filters).")
-            return "Narration could not be generated due to content restrictions."
+            return {
+                "narration": f"Let me tell you about {slide.get('title', 'this topic')}.",
+                "current_slide": slide_id,
+                "has_next": slide_id < total_slides,
+                "next_slide": slide_id + 1 if slide_id < total_slides else None
+            }
+    except Exception as e:
+        logger.error(f"Error generating narration: {e}", exc_info=True)
+        return {
+            "narration": f"Let me tell you about {slide.get('title', 'this topic')}.",
+            "current_slide": slide_id,
+            "has_next": slide_id < total_slides,
+            "next_slide": slide_id + 1 if slide_id < total_slides else None
+        }
+
+
+async def handle_question(question: str, current_slide: int) -> dict:
+    """
+    Handle a user question. Determines the most relevant slide and generates a response.
+    No chat history - each question is handled independently.
+    """
+    total_slides = get_slide_count()
+    topic = get_current_topic() or "the presentation"
+
+    prompt = f"""[Currently on slide {current_slide} of {total_slides}]
+[Presentation topic: {topic}]
+
+The person asks: "{question}"
+
+Answer this question thoroughly in 100-125 words. Speak directly to them (use "you", not "audience").
+Provide a detailed, helpful explanation with examples if relevant.
+IMPORTANT: Use go_to_slide to navigate to the most relevant slide for this question before answering."""
+
+    try:
+        logger.info(f"Handling question: {question}")
+
+        # Get fresh model with current context
+        qa_model = get_qa_model()
+
+        # Single message, no history needed
+        response = qa_model.generate_content(prompt)
+
+        result = {
+            "response": "",
+            "target_slide": current_slide,  # Default to current
+            "slide_changed": False
+        }
+
+        # Check for function calls
+        if response.candidates and response.candidates[0].content.parts:
+            for part in response.candidates[0].content.parts:
+                # Check for function call
+                if hasattr(part, 'function_call') and part.function_call:
+                    fc = part.function_call
+                    if fc.name == "go_to_slide":
+                        slide_num = int(fc.args.get("slide_number", current_slide))
+                        slide_num = max(1, min(slide_num, total_slides))
+                        result["target_slide"] = slide_num
+                        result["slide_changed"] = slide_num != current_slide
+
+                        # Get the text response after function call
+                        # Send function result back to get text
+                        chat = qa_model.start_chat()
+                        chat.send_message(prompt)
+                        func_response = chat.send_message(
+                            genai.protos.Content(
+                                parts=[genai.protos.Part(
+                                    function_response=genai.protos.FunctionResponse(
+                                        name="go_to_slide",
+                                        response={"result": f"Navigated to slide {slide_num}"}
+                                    )
+                                )]
+                            )
+                        )
+                        result["response"] = func_response.text
+                        return result
+
+                # Get text response
+                elif hasattr(part, 'text') and part.text:
+                    result["response"] = part.text
+
+        if not result["response"]:
+            result["response"] = response.text if response.text else "I'm not sure how to answer that. Let me continue with the presentation."
+
+        return result
 
     except Exception as e:
-        # This catches API errors, timeouts, or network issues
-        logger.error(f"Error during model generation for slide {slide_id}: {str(e)}", exc_info=True)
-        return "An error occurred while generating the narration."
+        logger.error(f"Error handling question: {e}", exc_info=True)
+        return {
+            "response": "I encountered an error processing your question. Let me continue with the presentation.",
+            "target_slide": current_slide,
+            "slide_changed": False
+        }

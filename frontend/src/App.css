@@ -50,7 +50,8 @@ body {
   font-weight: 600;
 }
 
-.connection-status {
+.connection-status,
+.header-status {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -120,6 +121,38 @@ body {
   position: absolute;
   left: 0;
   color: var(--primary-color);
+}
+
+/* Presenting Indicator */
+.presenting-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.presenting-dot {
+  width: 12px;
+  height: 12px;
+  background-color: #ef4444;
+  border-radius: 50%;
+  animation: pulse-dot 1.5s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
 }
 
 /* Slide Navigation */
@@ -211,6 +244,40 @@ body {
 .response-text {
   color: var(--text-primary);
   line-height: 1.6;
+}
+
+/* User Question */
+.user-question {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.question-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--accent-yellow);
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.question-text {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Live Transcript */
+.live-transcript {
+  background-color: rgba(79, 70, 229, 0.2);
+  border: 1px solid var(--primary-color);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  animation: pulse 2s infinite;
+}
+
+.listening-indicator {
+  margin-right: 0.5rem;
 }
 
 /* Voice Controls */
@@ -405,6 +472,100 @@ body {
 .start-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* Main Controls */
+.main-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Stop Button */
+.stop-btn {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: var(--accent-red);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.stop-btn:hover {
+  background-color: #dc2626;
+}
+
+/* Controls Section */
+.controls-section {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Ask Question Button */
+.ask-btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ask-btn:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+}
+
+.ask-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ask-btn.recording {
+  background-color: var(--accent-red);
+  animation: pulse 1.5s infinite;
+}
+
+/* Done Button */
+.done-btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: var(--accent-green);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  animation: pulse 1s infinite;
+}
+
+.done-btn:hover {
+  background-color: #16a34a;
+}
+
+/* Stop Presentation Button */
+.stop-presentation-btn {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: var(--text-secondary);
+  color: var(--bg-color);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.stop-presentation-btn:hover {
+  background-color: #64748b;
 }
 
 /* Error Message */

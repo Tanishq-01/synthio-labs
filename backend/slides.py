@@ -1,101 +1,145 @@
 """
-Slide content for the AI presentation.
-Topic: Introduction to Machine Learning
+Dynamic slide generation and management for AI presentation.
+Slides are generated based on user-provided topics.
 """
 
-SLIDES = [
-    {
-        "id": 1,
-        "title": "Introduction to Machine Learning",
-        "content": [
-            "What is Machine Learning?",
-            "A subset of Artificial Intelligence",
-            "Systems that learn and improve from experience",
-            "Without being explicitly programmed"
-        ],
-        "speaker_notes": "Welcome everyone! Today we'll explore the fascinating world of Machine Learning. ML is a branch of AI that enables computers to learn from data and improve their performance over time."
-    },
-    {
-        "id": 2,
-        "title": "Types of Machine Learning",
-        "content": [
-            "Supervised Learning - learns from labeled data",
-            "Unsupervised Learning - finds hidden patterns",
-            "Reinforcement Learning - learns through trial and error"
-        ],
-        "speaker_notes": "There are three main types of machine learning. Supervised learning uses labeled examples, like teaching with answer keys. Unsupervised learning discovers patterns on its own. Reinforcement learning learns by receiving rewards or penalties."
-    },
-    {
-        "id": 3,
-        "title": "Real-World Applications",
-        "content": [
-            "Recommendation Systems (Netflix, Spotify)",
-            "Voice Assistants (Siri, Alexa)",
-            "Self-Driving Cars",
-            "Medical Diagnosis",
-            "Fraud Detection"
-        ],
-        "speaker_notes": "Machine learning is everywhere! From the shows Netflix recommends to voice assistants understanding your speech. Self-driving cars use ML to navigate, doctors use it to diagnose diseases, and banks use it to detect fraud."
-    },
-    {
-        "id": 4,
-        "title": "Key Concepts",
-        "content": [
-            "Training Data - examples the model learns from",
-            "Features - input variables for predictions",
-            "Model - the learned pattern or function",
-            "Prediction - output from the trained model"
-        ],
-        "speaker_notes": "Let's understand some key terms. Training data is what we teach the model with. Features are the characteristics we use to make predictions. The model is what captures the learned patterns. Predictions are the outputs we get from our trained model."
-    },
-    {
-        "id": 5,
-        "title": "Getting Started with ML",
-        "content": [
-            "Learn Python programming basics",
-            "Understand statistics and linear algebra",
-            "Explore libraries: scikit-learn, TensorFlow, PyTorch",
-            "Practice with datasets from Kaggle"
-        ],
-        "speaker_notes": "Want to get started? Begin with Python, it's the most popular language for ML. Brush up on math fundamentals. Then explore popular libraries like scikit-learn for beginners or TensorFlow and PyTorch for deep learning. Kaggle has great datasets to practice with."
-    },
-    {
-        "id": 6,
-        "title": "Summary & Questions",
-        "content": [
-            "ML enables computers to learn from data",
-            "Three types: Supervised, Unsupervised, Reinforcement",
-            "Applications are everywhere in our daily lives",
-            "Getting started is easier than ever!",
-            "Any questions?"
-        ],
-        "speaker_notes": "To wrap up: Machine Learning is transforming how computers solve problems by learning from data. We covered the three main types and saw real-world applications. The field is accessible to anyone willing to learn. I'm happy to answer any questions you might have!"
-    }
+import json
+import logging
+import google.generativeai as genai
+import os
+
+logger = logging.getLogger(__name__)
+
+# Configure Gemini
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+
+# Model for slide generation
+slide_generator = genai.GenerativeModel(
+    model_name="models/gemini-2.5-flash-lite",
+    system_instruction="""You are an expert presentation creator. Generate clear, well-structured presentation slides.
+Always respond with valid JSON only, no markdown or extra text."""
+)
+
+
+class SlideState:
+    """Manages the current presentation state."""
+
+    def __init__(self):
+        self.topic = ""
+        self.slides = []
+
+    def set_slides(self, topic: str, slides: list):
+        self.topic = topic
+        self.slides = slides
+
+    def clear(self):
+        self.topic = ""
+        self.slides = []
+
+
+# Global state
+slide_state = SlideState()
+
+
+async def generate_slides_for_topic(topic: str, num_slides: int = 6) -> list:
+    """
+    Generate presentation slides for a given topic using Gemini.
+    Returns a list of slide dictionaries.
+    """
+    prompt = f"""Create a {num_slides}-slide presentation about: "{topic}"
+
+This is for a 1:1 presentation (presenter speaking directly to one person).
+
+Generate exactly {num_slides} slides with this JSON structure:
+[
+  {{
+    "id": 1,
+    "title": "Slide Title",
+    "content": ["Point 1", "Point 2", "Point 3", "Point 4"],
+    "speaker_notes": "Detailed notes for the presenter about what to say for this slide (2-3 sentences)"
+  }}
 ]
+
+Requirements:
+- Slide 1: Introduction to the topic
+- Slides 2-{num_slides-1}: Core content with 3-5 bullet points each
+- Slide {num_slides}: Summary and wrap-up
+- Make content clear and educational
+- Speaker notes should be conversational and personal (speaking to "you" not "audience")
+
+Return ONLY the JSON array, no other text."""
+
+    try:
+        logger.info(f"Generating {num_slides} slides for topic: {topic}")
+        response = await slide_generator.generate_content_async(prompt)
+
+        if response and response.text:
+            # Clean up response - remove markdown code blocks if present
+            text = response.text.strip()
+            if text.startswith("```json"):
+                text = text[7:]
+            if text.startswith("```"):
+                text = text[3:]
+            if text.endswith("```"):
+                text = text[:-3]
+            text = text.strip()
+
+            slides = json.loads(text)
+
+            # Validate and fix slide IDs
+            for i, slide in enumerate(slides):
+                slide["id"] = i + 1
+
+            slide_state.set_slides(topic, slides)
+            logger.info(f"Successfully generated {len(slides)} slides")
+            return slides
+        else:
+            raise ValueError("Empty response from Gemini")
+
+    except json.JSONDecodeError as e:
+        logger.error(f"Failed to parse slides JSON: {e}")
+        raise ValueError(f"Failed to generate valid slides: {e}")
+    except Exception as e:
+        logger.error(f"Error generating slides: {e}", exc_info=True)
+        raise
 
 
 def get_all_slides():
     """Return all slides."""
-    return SLIDES
+    return slide_state.slides
 
 
 def get_slide(slide_id: int):
     """Return a specific slide by ID (1-indexed)."""
-    if 1 <= slide_id <= len(SLIDES):
-        return SLIDES[slide_id - 1]
+    if slide_state.slides and 1 <= slide_id <= len(slide_state.slides):
+        return slide_state.slides[slide_id - 1]
     return None
 
 
 def get_slide_count():
     """Return total number of slides."""
-    return len(SLIDES)
+    return len(slide_state.slides)
+
+
+def get_current_topic():
+    """Return the current presentation topic."""
+    return slide_state.topic
+
+
+def has_slides():
+    """Check if slides have been generated."""
+    return len(slide_state.slides) > 0
 
 
 def get_slides_context():
     """Return a summary of all slides for AI context."""
-    context = "Presentation slides:\n"
-    for slide in SLIDES:
+    if not slide_state.slides:
+        return "No slides available."
+
+    context = f"Presentation topic: {slide_state.topic}\n"
+    context += "Presentation slides:\n"
+    for slide in slide_state.slides:
         context += f"\nSlide {slide['id']}: {slide['title']}\n"
-        for point in slide['content']:
+        for point in slide.get('content', []):
             context += f"  - {point}\n"
     return context

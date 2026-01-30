@@ -1,12 +1,10 @@
 /**
- * AI Slide Presentation App (Gemini + Browser Speech APIs)
+ * AI Presentation Agent - Simple autonomous presenter with manual Q&A
  */
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import SlideViewer from "./components/SlideViewer";
-import VoiceControls from "./components/VoiceControls";
 import SlideNav from "./components/SlideNav";
-import useSpeechRecognition from "./hooks/useVoiceRecorder";
 import useWebSocket from "./hooks/useWebSocket";
 import "./App.css";
 
@@ -18,45 +16,40 @@ export default function App() {
   const [currentSlide, setCurrentSlide] = useState(1);
   const [isLoadingSlides, setIsLoadingSlides] = useState(true);
 
-  // Conversation state
-  const [conversationHistory, setConversationHistory] = useState([]);
-  const [displayTranscript, setDisplayTranscript] = useState("");
+  // Agent state
+  const [isPresenting, setIsPresenting] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [aiResponse, setAiResponse] = useState("");
 
-  // Audio/Processing state
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
+  // Question state
+  const [isRecording, setIsRecording] = useState(false);
+  const [transcript, setTranscript] = useState("");
+  const transcriptRef = useRef("");
 
-  // Speech recognition hook
-  const {
-    isListening,
-    transcript,
-    error: speechError,
-    startListening,
-    stopListening,
-    clearTranscript,
-    isSupported,
-  } = useSpeechRecognition();
-
-  // WebSocket hook
+  // WebSocket
   const { isConnected, sendInterrupt, sendSlideUpdate, sendSpeakingStatus } =
     useWebSocket();
 
-  // Ref to track if we should process after listening stops
-  const shouldProcessRef = useRef(false);
+  // Refs
+  const isPresentingRef = useRef(false);
+  const shouldContinueRef = useRef(true);
+  const currentSlideRef = useRef(1);
+  const recognitionRef = useRef(null);
 
   // Fetch slides on mount
   useEffect(() => {
     fetchSlides();
+    initSpeechRecognition();
   }, []);
 
-  // Process transcript when listening stops and we have a transcript
   useEffect(() => {
-    if (!isListening && transcript && shouldProcessRef.current) {
-      shouldProcessRef.current = false;
-      processTranscript(transcript);
-    }
-  }, [isListening, transcript]);
+    isPresentingRef.current = isPresenting;
+  }, [isPresenting]);
+
+  useEffect(() => {
+    currentSlideRef.current = currentSlide;
+  }, [currentSlide]);
 
   const fetchSlides = async () => {
     try {
@@ -70,193 +63,309 @@ export default function App() {
     }
   };
 
-  const processTranscript = async (userText) => {
-    if (!userText.trim()) return;
+  // Simple speech recognition setup
+  const initSpeechRecognition = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) return;
 
-    setIsProcessing(true);
-    setDisplayTranscript(userText);
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = "en-US";
+
+    recognition.onresult = (event) => {
+      let text = "";
+      for (let i = 0; i < event.results.length; i++) {
+        text += event.results[i][0].transcript;
+      }
+      transcriptRef.current = text;
+      setTranscript(text);
+    };
+
+    recognition.onend = () => {
+      setIsRecording(false);
+      // Auto-send question when speech ends
+      if (transcriptRef.current.trim()) {
+        sendQuestion(transcriptRef.current);
+        transcriptRef.current = "";
+      }
+    };
+
+    recognitionRef.current = recognition;
+  };
+
+  // ============== Text-to-Speech ==============
+  const speak = useCallback((text) => {
+    return new Promise((resolve) => {
+      if (!("speechSynthesis" in window)) {
+        resolve();
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1.0;
+
+      const voices = window.speechSynthesis.getVoices();
+      const voice = voices.find(v => v.name.includes("Google") || v.name.includes("Samantha"));
+      if (voice) utterance.voice = voice;
+
+      utterance.onstart = () => {
+        setIsSpeaking(true);
+        sendSpeakingStatus(true);
+      };
+
+      utterance.onend = () => {
+        setIsSpeaking(false);
+        sendSpeakingStatus(false);
+        resolve();
+      };
+
+      utterance.onerror = () => {
+        setIsSpeaking(false);
+        sendSpeakingStatus(false);
+        resolve();
+      };
+
+      window.speechSynthesis.speak(utterance);
+    });
+  }, [sendSpeakingStatus]);
+
+  const stopSpeaking = useCallback(() => {
+    window.speechSynthesis.cancel();
+    setIsSpeaking(false);
+    sendSpeakingStatus(false);
+  }, [sendSpeakingStatus]);
+
+  // ============== Presentation Loop ==============
+  const continuePresentation = useCallback(async () => {
+    if (!shouldContinueRef.current || !isPresentingRef.current) return;
 
     try {
-      // Get AI response from Gemini
-      const chatRes = await fetch(`${API_BASE}/api/chat`, {
+      const response = await fetch(`${API_BASE}/api/present/next`);
+      const data = await response.json();
+
+      if (!shouldContinueRef.current) return;
+
+      setCurrentSlide(data.current_slide);
+      setAiResponse(data.narration);
+      sendSlideUpdate(data.current_slide);
+
+      await speak(data.narration);
+
+      if (data.has_next && shouldContinueRef.current && isPresentingRef.current) {
+        setTimeout(() => {
+          if (isPresentingRef.current && shouldContinueRef.current) {
+            continuePresentation();
+          }
+        }, 500);
+      } else if (!data.has_next) {
+        setIsPresenting(false);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }, [speak, sendSlideUpdate]);
+
+  // ============== Controls ==============
+  const startPresentation = useCallback(async () => {
+    setIsPresenting(true);
+    shouldContinueRef.current = true;
+    setIsProcessing(true);
+
+    try {
+      const response = await fetch(`${API_BASE}/api/present/start`);
+      const data = await response.json();
+
+      setCurrentSlide(data.current_slide);
+      setAiResponse(data.narration);
+      sendSlideUpdate(data.current_slide);
+
+      await speak(data.narration);
+
+      if (data.has_next && shouldContinueRef.current) {
+        setTimeout(() => {
+          if (isPresentingRef.current && shouldContinueRef.current) {
+            continuePresentation();
+          }
+        }, 500);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsProcessing(false);
+    }
+  }, [speak, sendSlideUpdate, continuePresentation]);
+
+  const stopAgent = useCallback(() => {
+    shouldContinueRef.current = false;
+    stopSpeaking();
+    sendInterrupt();
+  }, [stopSpeaking, sendInterrupt]);
+
+  const stopPresentation = useCallback(() => {
+    shouldContinueRef.current = false;
+    setIsPresenting(false);
+    stopSpeaking();
+    sendInterrupt();
+  }, [stopSpeaking, sendInterrupt]);
+
+  // ============== Question Handling ==============
+  const sendQuestion = useCallback(async (question) => {
+    setIsProcessing(true);
+    try {
+      const response = await fetch(`${API_BASE}/api/question`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          message: userText,
-          conversation_history: conversationHistory,
-          current_slide: currentSlide,
+          question,
+          current_slide: currentSlideRef.current,
         }),
       });
-      const chatData = await chatRes.json();
+      const data = await response.json();
 
-      // Update conversation history
-      setConversationHistory((prev) => [
-        ...prev,
-        { role: "user", content: userText },
-        { role: "assistant", content: chatData.response },
-      ]);
-
-      setAiResponse(chatData.response);
-
-      // Handle slide navigation
-      if (chatData.new_slide !== currentSlide) {
-        setCurrentSlide(chatData.new_slide);
-        sendSlideUpdate(chatData.new_slide);
+      if (data.slide_changed) {
+        setCurrentSlide(data.target_slide);
+        sendSlideUpdate(data.target_slide);
       }
 
-      // Text to speech using browser API
-      speak(chatData.response);
+      setAiResponse(data.response);
+      await speak(data.response);
+
+      // Resume presentation if was presenting
+      if (isPresentingRef.current) {
+        shouldContinueRef.current = true;
+        setTimeout(() => {
+          if (isPresentingRef.current && shouldContinueRef.current) {
+            continuePresentation();
+          }
+        }, 1000);
+      }
     } catch (error) {
-      console.error("Error processing:", error);
-      setAiResponse("Sorry, there was an error processing your request.");
+      console.error("Error:", error);
     } finally {
       setIsProcessing(false);
-      clearTranscript();
+      setTranscript("");
     }
-  };
+  }, [speak, sendSlideUpdate, continuePresentation]);
 
-  // Browser-based text-to-speech
-  const speak = (text) => {
-    if (!("speechSynthesis" in window)) {
-      console.error("Speech synthesis not supported");
+  const askQuestion = useCallback(() => {
+    if (isRecording) {
+      // Cancel recording
+      recognitionRef.current?.stop();
+      transcriptRef.current = "";
+      setTranscript("");
       return;
     }
 
-    // Cancel any ongoing speech
-    window.speechSynthesis.cancel();
+    // Start recording - interrupts AI
+    stopSpeaking();
+    shouldContinueRef.current = false;
+    transcriptRef.current = "";
+    setTranscript("");
+    setIsRecording(true);
+    recognitionRef.current?.start();
+  }, [isRecording, stopSpeaking]);
 
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1.0;
-    utterance.pitch = 1.0;
-    utterance.volume = 1.0;
-
-    // Try to use a nice voice
-    const voices = window.speechSynthesis.getVoices();
-    const preferredVoice = voices.find(
-      (v) => v.name.includes("Google") || v.name.includes("Samantha")
-    );
-    if (preferredVoice) {
-      utterance.voice = preferredVoice;
-    }
-
-    utterance.onstart = () => {
-      setIsSpeaking(true);
-      sendSpeakingStatus(true);
-    };
-
-    utterance.onend = () => {
-      setIsSpeaking(false);
-      sendSpeakingStatus(false);
-    };
-
-    utterance.onerror = () => {
-      setIsSpeaking(false);
-      sendSpeakingStatus(false);
-    };
-
-    window.speechSynthesis.speak(utterance);
-  };
-
-  const handleStartListening = useCallback(() => {
-    shouldProcessRef.current = true;
-    startListening();
-  }, [startListening]);
-
-  const handleStopListening = useCallback(() => {
-    stopListening();
-    // Processing will happen in the useEffect when isListening becomes false
-  }, [stopListening]);
-
-  const handleInterrupt = useCallback(() => {
-    window.speechSynthesis.cancel();
-    setIsSpeaking(false);
-    sendInterrupt();
-    sendSpeakingStatus(false);
-  }, [sendInterrupt, sendSpeakingStatus]);
-
-  const handleNavigate = useCallback(
-    (slideNumber) => {
-      const newSlide = Math.max(1, Math.min(slideNumber, slides.length));
-      setCurrentSlide(newSlide);
-      sendSlideUpdate(newSlide);
-    },
-    [slides.length, sendSlideUpdate]
-  );
-
-  const handleStartPresentation = async () => {
-    setIsProcessing(true);
-    try {
-      const response = await fetch(`${API_BASE}/api/narrate/${currentSlide}`);
-      const data = await response.json();
-      setAiResponse(data.narration);
-      speak(data.narration);
-    } catch (error) {
-      console.error("Error starting presentation:", error);
-    } finally {
-      setIsProcessing(false);
-    }
-  };
+  const handleNavigate = useCallback((slideNumber) => {
+    const newSlide = Math.max(1, Math.min(slideNumber, slides.length));
+    stopSpeaking();
+    setCurrentSlide(newSlide);
+    sendSlideUpdate(newSlide);
+  }, [slides.length, stopSpeaking, sendSlideUpdate]);
 
   const currentSlideData = slides[currentSlide - 1];
 
   return (
     <div className="app">
       <header className="app-header">
-        <h1>AI Slide Presentation</h1>
-        <div className="connection-status">
+        <h1>AI Presentation Agent</h1>
+        <div className="header-status">
           <span className={`status-dot ${isConnected ? "connected" : ""}`} />
-          {isConnected ? "Connected" : "Disconnected"}
+          {isPresenting ? "Presenting" : "Ready"}
         </div>
       </header>
 
       <main className="app-main">
         <SlideViewer slide={currentSlideData} isLoading={isLoadingSlides} />
 
-        <SlideNav
-          currentSlide={currentSlide}
-          totalSlides={slides.length}
-          onNavigate={handleNavigate}
-          disabled={isProcessing || isSpeaking}
-        />
+        {/* Presenting Indicator - shows during presentation */}
+        {isPresenting && (
+          <div className="presenting-indicator">
+            <span className="presenting-dot"></span>
+            Presenting Slide {currentSlide} of {slides.length}
+          </div>
+        )}
+
+        {/* Slide Navigation - hidden during presentation */}
+        {!isPresenting && (
+          <SlideNav
+            currentSlide={currentSlide}
+            totalSlides={slides.length}
+            onNavigate={handleNavigate}
+            disabled={isProcessing}
+          />
+        )}
 
         <div className="ai-response">
           {aiResponse && (
             <>
-              <p className="response-label">AI:</p>
+              <p className="response-label">AI Agent:</p>
               <p className="response-text">{aiResponse}</p>
             </>
           )}
         </div>
 
-        <VoiceControls
-          isRecording={isListening}
-          isSpeaking={isSpeaking}
-          isProcessing={isProcessing}
-          onStartRecording={handleStartListening}
-          onStopRecording={handleStopListening}
-          onInterrupt={handleInterrupt}
-          transcript={displayTranscript || transcript}
-        />
-
-        {speechError && <p className="error-message">{speechError}</p>}
-        {!isSupported && (
-          <p className="error-message">
-            Speech recognition is not supported in this browser. Please use
-            Chrome.
-          </p>
+        {/* Recording transcript */}
+        {transcript && (
+          <div className="live-transcript">
+            🎤 {transcript}
+          </div>
         )}
 
-        <button
-          className="start-btn"
-          onClick={handleStartPresentation}
-          disabled={isProcessing || isSpeaking || isLoadingSlides}
-        >
-          {currentSlide === 1 ? "Start Presentation" : "Narrate This Slide"}
-        </button>
+        {/* Controls */}
+        <div className="controls-section">
+          {/* Stop AI button - only shows when speaking */}
+          {isSpeaking && (
+            <button className="stop-btn" onClick={stopAgent}>
+              ⏹ Stop AI
+            </button>
+          )}
+
+          {/* Single Ask Question button */}
+          <button
+            className={`ask-btn ${isRecording ? "recording" : ""}`}
+            onClick={askQuestion}
+            disabled={isProcessing}
+          >
+            {isRecording ? "🔴 Listening... (click to cancel)" : "🎤 Ask Question"}
+          </button>
+        </div>
+
+        {/* Main presentation controls */}
+        <div className="main-controls">
+          {!isPresenting ? (
+            <button
+              className="start-btn"
+              onClick={startPresentation}
+              disabled={isProcessing || isLoadingSlides}
+            >
+              ▶ Start Presentation
+            </button>
+          ) : (
+            <button className="stop-presentation-btn" onClick={stopPresentation}>
+              ⏹ End Presentation
+            </button>
+          )}
+        </div>
       </main>
 
       <footer className="app-footer">
-        <p>Speak to ask questions or navigate slides (Chrome recommended)</p>
+        <p>
+          {isPresenting
+            ? "Click 'Ask Question' to interrupt • Question auto-sends when you stop speaking"
+            : "Click Start to begin the AI presentation"}
+        </p>
       </footer>
     </div>
   );

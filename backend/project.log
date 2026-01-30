@@ -146,3 +146,764 @@ google.api_core.exceptions.NotFound: 404 models/gemini-1.5-flash is not found fo
 2026-01-31 03:21:19,487 [INFO] openai_service:generate_slide_narration:181: Attempting to generate narration for slide 2...
 2026-01-31 03:21:19,490 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4632275536
 2026-01-31 03:21:23,531 [INFO] openai_service:generate_slide_narration:193: Successfully generated narration for slide 2.
+2026-01-31 03:32:44,168 [INFO] openai_service:generate_slide_narration:181: Attempting to generate narration for slide 2...
+2026-01-31 03:32:44,170 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4632275536
+2026-01-31 03:32:47,890 [INFO] openai_service:generate_slide_narration:193: Successfully generated narration for slide 2.
+2026-01-31 03:33:08,502 [INFO] openai_service:generate_slide_narration:181: Attempting to generate narration for slide 2...
+2026-01-31 03:33:08,503 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4632275536
+2026-01-31 03:33:13,386 [INFO] openai_service:generate_slide_narration:193: Successfully generated narration for slide 2.
+2026-01-31 03:36:21,681 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 03:36:21,700 [INFO] main:lifespan:28: Application starting up...
+2026-01-31 03:36:49,664 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 03:36:49,681 [INFO] main:lifespan:28: AI Presentation Agent starting...
+2026-01-31 03:36:51,716 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 03:37:17,723 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 03:37:21,714 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 03:37:58,739 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 03:42:11,955 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 03:42:11,961 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 03:42:12,055 [INFO] main:lifespan:30: Shutting down...
+2026-01-31 03:42:13,574 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 03:42:13,594 [INFO] main:lifespan:28: AI Presentation Agent starting...
+2026-01-31 03:42:15,716 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 03:42:15,728 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 03:42:15,817 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 03:42:15,817 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 03:42:15,918 [INFO] main:lifespan:30: Shutting down...
+2026-01-31 03:42:16,742 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 03:42:16,752 [INFO] main:lifespan:28: AI Presentation Agent starting...
+2026-01-31 03:42:19,714 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 03:42:19,731 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 03:43:04,969 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 1
+2026-01-31 03:43:04,975 [DEBUG] grpc._cython.cygrpc:__init__:369: [_cygrpc] Loaded running loop: id(loop)=4410157648
+2026-01-31 03:43:04,975 [DEBUG] grpc._cython.cygrpc:__init__:370: Using AsyncIOEngine.POLLER as I/O engine
+2026-01-31 03:43:04,976 [DEBUG] grpc._cython.cygrpc:__init__:370: [_cygrpc] Loaded running loop: id(loop)=4410157648
+2026-01-31 03:43:04,986 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4410157648
+2026-01-31 03:43:28,282 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 2
+2026-01-31 03:43:28,286 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4410157648
+2026-01-31 03:43:51,235 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 3
+2026-01-31 03:43:51,235 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4410157648
+2026-01-31 03:44:19,109 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 4
+2026-01-31 03:44:19,109 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4410157648
+2026-01-31 03:44:39,853 [INFO] main:handle_question:191: User question: hey stop
+2026-01-31 03:44:39,853 [INFO] openai_service:handle_question:148: Handling question: hey stop
+2026-01-31 03:45:17,384 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 1
+2026-01-31 03:45:17,385 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4410157648
+2026-01-31 04:04:54,717 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:04:54,724 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:04:58,710 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:05:51,579 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:05:51,581 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:05:51,581 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:05:51,683 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:05:51,683 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:05:51,694 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:05:55,889 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 1
+2026-01-31 04:05:55,891 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4410157648
+2026-01-31 04:06:18,276 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 2
+2026-01-31 04:06:18,276 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4410157648
+2026-01-31 04:07:41,704 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 1
+2026-01-31 04:07:41,707 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4410157648
+2026-01-31 04:10:45,362 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 1
+2026-01-31 04:10:45,365 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4410157648
+2026-01-31 04:11:05,544 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 2
+2026-01-31 04:11:05,545 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4410157648
+2026-01-31 04:14:49,721 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:14:49,729 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:14:53,710 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:14:58,715 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:14:58,717 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:15:13,719 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:15:17,709 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:15:31,715 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:15:31,716 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:15:31,726 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:15:37,711 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:15:37,713 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:17:43,502 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:17:43,503 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:17:43,503 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:17:43,663 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:17:43,664 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:17:43,672 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:17:54,158 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 1
+2026-01-31 04:17:54,161 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4410157648
+2026-01-31 04:18:14,066 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 2
+2026-01-31 04:18:14,067 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4410157648
+2026-01-31 04:18:35,048 [INFO] main:handle_question:191: User question: hey I want to know about how can I learn machine learning
+2026-01-31 04:18:35,049 [INFO] openai_service:handle_question:148: Handling question: hey I want to know about how can I learn machine learning
+2026-01-31 04:18:38,728 [ERROR] openai_service:handle_question:198: Error handling question: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash
+Please retry in 21.524728674s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 21
+}
+]
+Traceback (most recent call last):
+  File "/Users/tanishqagarwal/slide-ai/backend/openai_service.py", line 175, in handle_question
+    func_response = chat.send_message(
+        genai.protos.Content(
+    ...<6 lines>...
+        )
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/generativeai/generative_models.py", line 578, in send_message
+    response = self.model.generate_content(
+        contents=history,
+    ...<5 lines>...
+        request_options=request_options,
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/generativeai/generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+        request,
+        **request_options,
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/ai/generativelanguage_v1beta/services/generative_service/client.py", line 830, in generate_content
+    response = rpc(
+        request,
+    ...<2 lines>...
+        metadata=metadata,
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/gapic_v1/method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+        target,
+    ...<3 lines>...
+        on_error=on_error,
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+        exc,
+    ...<6 lines>...
+        timeout,
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary.py", line 147, in retry_target
+    result = target()
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash
+Please retry in 21.524728674s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 21
+}
+]
+2026-01-31 04:18:44,629 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 3
+2026-01-31 04:18:44,630 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4410157648
+2026-01-31 04:18:45,059 [ERROR] openai_service:generate_slide_narration:125: Error generating narration: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash
+Please retry in 15.218110574s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 15
+}
+]
+Traceback (most recent call last):
+  File "/Users/tanishqagarwal/slide-ai/backend/openai_service.py", line 108, in generate_slide_narration
+    response = await narration_model.generate_content_async(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/generativeai/generative_models.py", line 385, in generate_content_async
+    response = await self._async_client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/ai/generativelanguage_v1beta/services/generative_service/async_client.py", line 406, in generate_content
+    response = await rpc(
+               ^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 231, in retry_wrapped_func
+    return await retry_target(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 163, in retry_target
+    next_sleep = _retry_error_helper(
+        exc,
+    ...<6 lines>...
+        timeout,
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 158, in retry_target
+    return await target()
+           ^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/grpc_helpers_async.py", line 89, in __await__
+    raise exceptions.from_grpc_error(rpc_error) from rpc_error
+google.api_core.exceptions.ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash
+Please retry in 15.218110574s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 15
+}
+]
+2026-01-31 04:18:48,236 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 4
+2026-01-31 04:18:48,237 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4410157648
+2026-01-31 04:18:48,697 [ERROR] openai_service:generate_slide_narration:125: Error generating narration: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash
+Please retry in 11.633649106s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 11
+}
+]
+Traceback (most recent call last):
+  File "/Users/tanishqagarwal/slide-ai/backend/openai_service.py", line 108, in generate_slide_narration
+    response = await narration_model.generate_content_async(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/generativeai/generative_models.py", line 385, in generate_content_async
+    response = await self._async_client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/ai/generativelanguage_v1beta/services/generative_service/async_client.py", line 406, in generate_content
+    response = await rpc(
+               ^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 231, in retry_wrapped_func
+    return await retry_target(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 163, in retry_target
+    next_sleep = _retry_error_helper(
+        exc,
+    ...<6 lines>...
+        timeout,
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 158, in retry_target
+    return await target()
+           ^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/grpc_helpers_async.py", line 89, in __await__
+    raise exceptions.from_grpc_error(rpc_error) from rpc_error
+google.api_core.exceptions.ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash
+Please retry in 11.633649106s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 11
+}
+]
+2026-01-31 04:18:51,425 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 5
+2026-01-31 04:18:51,426 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4410157648
+2026-01-31 04:18:51,809 [ERROR] openai_service:generate_slide_narration:125: Error generating narration: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash
+Please retry in 8.463362478s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 8
+}
+]
+Traceback (most recent call last):
+  File "/Users/tanishqagarwal/slide-ai/backend/openai_service.py", line 108, in generate_slide_narration
+    response = await narration_model.generate_content_async(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/generativeai/generative_models.py", line 385, in generate_content_async
+    response = await self._async_client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/ai/generativelanguage_v1beta/services/generative_service/async_client.py", line 406, in generate_content
+    response = await rpc(
+               ^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 231, in retry_wrapped_func
+    return await retry_target(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 163, in retry_target
+    next_sleep = _retry_error_helper(
+        exc,
+    ...<6 lines>...
+        timeout,
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 158, in retry_target
+    return await target()
+           ^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/grpc_helpers_async.py", line 89, in __await__
+    raise exceptions.from_grpc_error(rpc_error) from rpc_error
+google.api_core.exceptions.ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash
+Please retry in 8.463362478s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 8
+}
+]
+2026-01-31 04:18:54,926 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 6
+2026-01-31 04:18:54,926 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4410157648
+2026-01-31 04:18:55,346 [ERROR] openai_service:generate_slide_narration:125: Error generating narration: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash
+Please retry in 4.931421299s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 4
+}
+]
+Traceback (most recent call last):
+  File "/Users/tanishqagarwal/slide-ai/backend/openai_service.py", line 108, in generate_slide_narration
+    response = await narration_model.generate_content_async(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/generativeai/generative_models.py", line 385, in generate_content_async
+    response = await self._async_client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/ai/generativelanguage_v1beta/services/generative_service/async_client.py", line 406, in generate_content
+    response = await rpc(
+               ^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 231, in retry_wrapped_func
+    return await retry_target(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 163, in retry_target
+    next_sleep = _retry_error_helper(
+        exc,
+    ...<6 lines>...
+        timeout,
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 158, in retry_target
+    return await target()
+           ^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/grpc_helpers_async.py", line 89, in __await__
+    raise exceptions.from_grpc_error(rpc_error) from rpc_error
+google.api_core.exceptions.ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash
+Please retry in 4.931421299s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 4
+}
+]
+2026-01-31 04:31:18,669 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:31:18,770 [INFO] main:lifespan:30: Shutting down...
+2026-01-31 04:31:22,290 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 04:31:22,310 [INFO] main:lifespan:28: AI Presentation Agent starting...
+2026-01-31 04:31:22,310 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:31:56,957 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 1
+2026-01-31 04:31:56,965 [DEBUG] grpc._cython.cygrpc:__init__:369: [_cygrpc] Loaded running loop: id(loop)=4437224016
+2026-01-31 04:31:56,965 [DEBUG] grpc._cython.cygrpc:__init__:370: Using AsyncIOEngine.POLLER as I/O engine
+2026-01-31 04:31:56,967 [DEBUG] grpc._cython.cygrpc:__init__:370: [_cygrpc] Loaded running loop: id(loop)=4437224016
+2026-01-31 04:31:56,987 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4437224016
+2026-01-31 04:31:57,895 [ERROR] openai_service:generate_slide_narration:125: Error generating narration: 400 * GenerateContentRequest.model: unexpected model name format
+Traceback (most recent call last):
+  File "/Users/tanishqagarwal/slide-ai/backend/openai_service.py", line 108, in generate_slide_narration
+    response = await narration_model.generate_content_async(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/generativeai/generative_models.py", line 385, in generate_content_async
+    response = await self._async_client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/ai/generativelanguage_v1beta/services/generative_service/async_client.py", line 406, in generate_content
+    response = await rpc(
+               ^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 231, in retry_wrapped_func
+    return await retry_target(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 163, in retry_target
+    next_sleep = _retry_error_helper(
+        exc,
+    ...<6 lines>...
+        timeout,
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 158, in retry_target
+    return await target()
+           ^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/grpc_helpers_async.py", line 89, in __await__
+    raise exceptions.from_grpc_error(rpc_error) from rpc_error
+google.api_core.exceptions.InvalidArgument: 400 * GenerateContentRequest.model: unexpected model name format
+
+2026-01-31 04:32:01,313 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 2
+2026-01-31 04:32:01,314 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4437224016
+2026-01-31 04:32:01,442 [ERROR] openai_service:generate_slide_narration:125: Error generating narration: 400 * GenerateContentRequest.model: unexpected model name format
+Traceback (most recent call last):
+  File "/Users/tanishqagarwal/slide-ai/backend/openai_service.py", line 108, in generate_slide_narration
+    response = await narration_model.generate_content_async(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/generativeai/generative_models.py", line 385, in generate_content_async
+    response = await self._async_client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/ai/generativelanguage_v1beta/services/generative_service/async_client.py", line 406, in generate_content
+    response = await rpc(
+               ^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 231, in retry_wrapped_func
+    return await retry_target(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 163, in retry_target
+    next_sleep = _retry_error_helper(
+        exc,
+    ...<6 lines>...
+        timeout,
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 158, in retry_target
+    return await target()
+           ^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/grpc_helpers_async.py", line 89, in __await__
+    raise exceptions.from_grpc_error(rpc_error) from rpc_error
+google.api_core.exceptions.InvalidArgument: 400 * GenerateContentRequest.model: unexpected model name format
+
+2026-01-31 04:32:58,351 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:32:58,452 [INFO] main:lifespan:30: Shutting down...
+2026-01-31 04:33:02,100 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 04:33:02,118 [INFO] main:lifespan:28: AI Presentation Agent starting...
+2026-01-31 04:33:02,119 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:33:04,050 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 1
+2026-01-31 04:33:04,054 [DEBUG] grpc._cython.cygrpc:__init__:369: [_cygrpc] Loaded running loop: id(loop)=4848265808
+2026-01-31 04:33:04,054 [DEBUG] grpc._cython.cygrpc:__init__:370: Using AsyncIOEngine.POLLER as I/O engine
+2026-01-31 04:33:04,054 [DEBUG] grpc._cython.cygrpc:__init__:370: [_cygrpc] Loaded running loop: id(loop)=4848265808
+2026-01-31 04:33:04,065 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4848265808
+2026-01-31 04:33:05,684 [ERROR] openai_service:generate_slide_narration:125: Error generating narration: 400 Developer instruction is not enabled for models/gemma-3-12b-it
+Traceback (most recent call last):
+  File "/Users/tanishqagarwal/slide-ai/backend/openai_service.py", line 108, in generate_slide_narration
+    response = await narration_model.generate_content_async(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/generativeai/generative_models.py", line 385, in generate_content_async
+    response = await self._async_client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/ai/generativelanguage_v1beta/services/generative_service/async_client.py", line 406, in generate_content
+    response = await rpc(
+               ^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 231, in retry_wrapped_func
+    return await retry_target(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 163, in retry_target
+    next_sleep = _retry_error_helper(
+        exc,
+    ...<6 lines>...
+        timeout,
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 158, in retry_target
+    return await target()
+           ^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/grpc_helpers_async.py", line 89, in __await__
+    raise exceptions.from_grpc_error(rpc_error) from rpc_error
+google.api_core.exceptions.InvalidArgument: 400 Developer instruction is not enabled for models/gemma-3-12b-it
+2026-01-31 04:33:09,120 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 2
+2026-01-31 04:33:09,121 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4848265808
+2026-01-31 04:33:09,595 [ERROR] openai_service:generate_slide_narration:125: Error generating narration: 400 Developer instruction is not enabled for models/gemma-3-12b-it
+Traceback (most recent call last):
+  File "/Users/tanishqagarwal/slide-ai/backend/openai_service.py", line 108, in generate_slide_narration
+    response = await narration_model.generate_content_async(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/generativeai/generative_models.py", line 385, in generate_content_async
+    response = await self._async_client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/ai/generativelanguage_v1beta/services/generative_service/async_client.py", line 406, in generate_content
+    response = await rpc(
+               ^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 231, in retry_wrapped_func
+    return await retry_target(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 163, in retry_target
+    next_sleep = _retry_error_helper(
+        exc,
+    ...<6 lines>...
+        timeout,
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/retry/retry_unary_async.py", line 158, in retry_target
+    return await target()
+           ^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/google/api_core/grpc_helpers_async.py", line 89, in __await__
+    raise exceptions.from_grpc_error(rpc_error) from rpc_error
+google.api_core.exceptions.InvalidArgument: 400 Developer instruction is not enabled for models/gemma-3-12b-it
+2026-01-31 04:37:43,946 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:37:44,047 [INFO] main:lifespan:30: Shutting down...
+2026-01-31 04:37:47,869 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 04:37:47,888 [INFO] main:lifespan:28: AI Presentation Agent starting...
+2026-01-31 04:37:47,889 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:37:56,006 [INFO] openai_service:generate_slide_narration:83: Generating narration for slide 1
+2026-01-31 04:37:56,021 [DEBUG] grpc._cython.cygrpc:__init__:369: [_cygrpc] Loaded running loop: id(loop)=4728711424
+2026-01-31 04:37:56,021 [DEBUG] grpc._cython.cygrpc:__init__:370: Using AsyncIOEngine.POLLER as I/O engine
+2026-01-31 04:37:56,031 [DEBUG] grpc._cython.cygrpc:__init__:370: [_cygrpc] Loaded running loop: id(loop)=4728711424
+2026-01-31 04:37:56,044 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4728711424
+2026-01-31 04:38:31,035 [INFO] openai_service:generate_slide_narration:83: Generating narration for slide 1
+2026-01-31 04:38:31,036 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4728711424
+2026-01-31 04:38:51,130 [INFO] openai_service:generate_slide_narration:83: Generating narration for slide 2
+2026-01-31 04:38:51,131 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4728711424
+2026-01-31 04:39:16,465 [INFO] openai_service:generate_slide_narration:83: Generating narration for slide 3
+2026-01-31 04:39:16,469 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4728711424
+2026-01-31 04:39:50,349 [INFO] main:handle_question:191: User question: hey I want to know about some more applications of machine learning
+2026-01-31 04:39:51,087 [ERROR] openai_service:handle_question:133: Question Error: 400 Function calling is not enabled for models/gemma-3-12b-it
+2026-01-31 04:39:53,323 [INFO] openai_service:generate_slide_narration:83: Generating narration for slide 4
+2026-01-31 04:39:53,324 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4728711424
+2026-01-31 04:40:27,531 [INFO] main:handle_question:191: User question: I want to know about some more applications of machine learning in the field of medicine
+2026-01-31 04:40:28,065 [ERROR] openai_service:handle_question:133: Question Error: 400 Function calling is not enabled for models/gemma-3-12b-it
+2026-01-31 04:40:30,298 [INFO] openai_service:generate_slide_narration:83: Generating narration for slide 5
+2026-01-31 04:40:30,299 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4728711424
+2026-01-31 04:41:49,160 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:41:49,261 [INFO] main:lifespan:30: Shutting down...
+2026-01-31 04:41:52,857 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 04:41:52,878 [INFO] main:lifespan:28: AI Presentation Agent starting...
+2026-01-31 04:41:52,878 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:43:12,270 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:43:12,371 [INFO] main:lifespan:30: Shutting down...
+2026-01-31 04:43:13,906 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 04:43:13,925 [INFO] main:lifespan:28: AI Presentation Agent starting...
+2026-01-31 04:43:15,705 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:43:19,691 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:43:19,793 [INFO] main:lifespan:30: Shutting down...
+2026-01-31 04:43:20,759 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 04:43:20,776 [INFO] main:lifespan:28: AI Presentation Agent starting...
+2026-01-31 04:43:22,707 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:43:27,645 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:43:27,746 [INFO] main:lifespan:30: Shutting down...
+2026-01-31 04:43:28,870 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 04:43:28,889 [INFO] main:lifespan:28: AI Presentation Agent starting...
+2026-01-31 04:43:30,705 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:44:32,994 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:44:33,095 [INFO] main:lifespan:30: Shutting down...
+2026-01-31 04:44:34,724 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 04:44:34,745 [INFO] main:lifespan:28: AI Presentation Agent starting...
+2026-01-31 04:44:36,707 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:45:38,090 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 1
+2026-01-31 04:45:38,103 [DEBUG] grpc._cython.cygrpc:__init__:369: [_cygrpc] Loaded running loop: id(loop)=4456098384
+2026-01-31 04:45:38,103 [DEBUG] grpc._cython.cygrpc:__init__:370: Using AsyncIOEngine.POLLER as I/O engine
+2026-01-31 04:45:38,105 [DEBUG] grpc._cython.cygrpc:__init__:370: [_cygrpc] Loaded running loop: id(loop)=4456098384
+2026-01-31 04:45:38,117 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4456098384
+2026-01-31 04:45:39,432 [DEBUG] google.api_core.retry:_retry_error_helper:230: Retrying due to 503 The model is overloaded. Please try again later., sleeping 0.5s ...
+2026-01-31 04:45:39,969 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4456098384
+2026-01-31 04:46:20,187 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 2
+2026-01-31 04:46:20,188 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4456098384
+2026-01-31 04:47:02,642 [INFO] main:handle_question:191: User question: hey I want to know about applications of machine learning in medicine
+2026-01-31 04:47:02,644 [INFO] openai_service:handle_question:148: Handling question: hey I want to know about applications of machine learning in medicine
+2026-01-31 04:47:23,688 [INFO] openai_service:generate_slide_narration:107: Generating narration for slide 4
+2026-01-31 04:47:23,688 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4456098384
+2026-01-31 04:51:36,162 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:51:36,262 [INFO] main:lifespan:30: Shutting down...
+2026-01-31 04:51:39,748 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 04:51:39,768 [INFO] main:lifespan:28: AI Presentation Agent starting...
+2026-01-31 04:51:39,768 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:58:45,003 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:58:45,104 [INFO] main:lifespan:30: Shutting down...
+2026-01-31 04:58:46,655 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 04:58:46,672 [INFO] main:lifespan:28: AI Presentation Agent starting...
+2026-01-31 04:58:48,699 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 04:59:30,965 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 04:59:31,066 [INFO] main:lifespan:30: Shutting down...
+2026-01-31 04:59:32,253 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 04:59:32,272 [INFO] main:lifespan:28: AI Presentation Agent starting...
+2026-01-31 04:59:34,701 [INFO] main:websocket_endpoint:242: WebSocket client connected

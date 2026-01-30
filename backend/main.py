@@ -1,8 +1,10 @@
 """
-FastAPI backend for AI Voice Slide Presentation App (using Gemini).
+FastAPI backend for AI Voice Presentation Agent.
+The agent autonomously presents slides and responds to voice interruptions.
 """
 
 import os
+import logging
 from typing import Optional
 from contextlib import asynccontextmanager
 
@@ -11,28 +13,25 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
 from logging_config import setup_logging
-import logging
 
-# 1. Setup the whole project
 setup_logging()
 logger = logging.getLogger(__name__)
 
 load_dotenv()
 
 from slides import get_all_slides, get_slide, get_slide_count
-import openai_service
+import openai_service as agent_service
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logger.info("Application starting up...")
+    logger.info("AI Presentation Agent starting...")
     yield
-    print("Shutting down...")
+    logger.info("Shutting down...")
 
 
-app = FastAPI(title="AI Slide Presentation", lifespan=lifespan)
+app = FastAPI(title="AI Presentation Agent", lifespan=lifespan)
 
-# CORS for frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
@@ -44,50 +43,53 @@ app.add_middleware(
 
 # ============== Models ==============
 
-class ChatRequest(BaseModel):
-    message: str
-    conversation_history: list = []
+class QuestionRequest(BaseModel):
+    question: str
     current_slide: int = 1
 
 
-class ChatResponse(BaseModel):
+class PresentResponse(BaseModel):
+    narration: str
+    current_slide: int
+    has_next: bool
+    next_slide: Optional[int] = None
+
+
+class QuestionResponse(BaseModel):
     response: str
-    slide_action: Optional[dict] = None
-    new_slide: int
+    target_slide: int
+    slide_changed: bool
 
 
-# ============== State Management ==============
+# ============== Agent State ==============
 
-class PresentationState:
-    """Manages the state of active presentations."""
+class AgentState:
+    """Simple state for the presenting agent."""
 
     def __init__(self):
         self.current_slide = 1
-        self.conversation_history = []
+        self.is_presenting = False
         self.is_speaking = False
-        self.interrupt_flag = False
 
     def reset(self):
         self.current_slide = 1
-        self.conversation_history = []
+        self.is_presenting = False
         self.is_speaking = False
-        self.interrupt_flag = False
 
 
-presentation_state = PresentationState()
+agent_state = AgentState()
 
 
 # ============== REST Endpoints ==============
 
 @app.get("/api/health")
 async def health_check():
-    """Health check endpoint."""
-    return {"status": "healthy", "model": "gemini-1.5-flash"}
+    return {"status": "healthy", "agent": "gemini-presentation-agent"}
 
 
 @app.get("/api/slides")
 async def get_slides():
-    """Get all slides."""
+    """Get all slides for display."""
     return {
         "slides": get_all_slides(),
         "total": get_slide_count()
@@ -96,82 +98,116 @@ async def get_slides():
 
 @app.get("/api/slides/{slide_id}")
 async def get_slide_by_id(slide_id: int):
-    """Get a specific slide by ID."""
+    """Get a specific slide."""
     slide = get_slide(slide_id)
     if not slide:
         raise HTTPException(status_code=404, detail="Slide not found")
     return slide
 
 
-@app.get("/api/state")
-async def get_state():
-    """Get current presentation state."""
-    return {
-        "current_slide": presentation_state.current_slide,
-        "is_speaking": presentation_state.is_speaking,
-        "total_slides": get_slide_count()
-    }
-
-
 @app.post("/api/reset")
-async def reset_presentation():
-    """Reset the presentation to initial state."""
-    presentation_state.reset()
+async def reset_agent():
+    """Reset the agent to start fresh."""
+    agent_state.reset()
     return {"status": "reset", "current_slide": 1}
 
 
-@app.post("/api/chat", response_model=ChatResponse)
-async def chat(request: ChatRequest):
-    """Process user message and get AI response with optional slide navigation."""
-    try:
-        result = await openai_service.generate_response(
-            user_message=request.message,
-            conversation_history=request.conversation_history,
-            current_slide=request.current_slide
+# ============== Agent Presentation Endpoints ==============
+
+@app.get("/api/present/start", response_model=PresentResponse)
+async def start_presentation():
+    """
+    Start the presentation from slide 1.
+    Returns the first slide's narration.
+    """
+    agent_state.current_slide = 1
+    agent_state.is_presenting = True
+
+    result = await agent_service.generate_slide_narration(1)
+
+    return PresentResponse(
+        narration=result["narration"],
+        current_slide=result["current_slide"],
+        has_next=result["has_next"],
+        next_slide=result.get("next_slide")
+    )
+
+
+@app.get("/api/present/slide/{slide_id}", response_model=PresentResponse)
+async def present_slide(slide_id: int):
+    """
+    Present a specific slide.
+    Used after answering questions to continue from that slide.
+    """
+    if slide_id < 1 or slide_id > get_slide_count():
+        raise HTTPException(status_code=404, detail="Slide not found")
+
+    agent_state.current_slide = slide_id
+    result = await agent_service.generate_slide_narration(slide_id)
+
+    return PresentResponse(
+        narration=result["narration"],
+        current_slide=result["current_slide"],
+        has_next=result["has_next"],
+        next_slide=result.get("next_slide")
+    )
+
+
+@app.get("/api/present/next", response_model=PresentResponse)
+async def present_next_slide():
+    """
+    Advance to and present the next slide.
+    Called automatically when current slide narration finishes.
+    """
+    next_slide = agent_state.current_slide + 1
+    total = get_slide_count()
+
+    if next_slide > total:
+        # Presentation complete
+        return PresentResponse(
+            narration="That concludes our presentation. Thank you for listening! Feel free to ask any questions.",
+            current_slide=total,
+            has_next=False,
+            next_slide=None
         )
 
-        # Calculate new slide based on action
-        new_slide = request.current_slide
-        if result["slide_action"]:
-            action = result["slide_action"]
-            if action["action"] == "go_to":
-                new_slide = max(1, min(action["slide_number"], get_slide_count()))
-            elif action["action"] == "next":
-                new_slide = min(request.current_slide + 1, get_slide_count())
-            elif action["action"] == "previous":
-                new_slide = max(request.current_slide - 1, 1)
+    agent_state.current_slide = next_slide
+    result = await agent_service.generate_slide_narration(next_slide)
 
-        # Update global state
-        presentation_state.current_slide = new_slide
-        presentation_state.conversation_history = request.conversation_history + [
-            {"role": "user", "content": request.message},
-            {"role": "assistant", "content": result["response"]}
-        ]
-
-        return ChatResponse(
-            response=result["response"],
-            slide_action=result["slide_action"],
-            new_slide=new_slide
-        )
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    return PresentResponse(
+        narration=result["narration"],
+        current_slide=result["current_slide"],
+        has_next=result["has_next"],
+        next_slide=result.get("next_slide")
+    )
 
 
-@app.get("/api/narrate/{slide_id}")
-async def get_slide_narration(slide_id: int):
-    """Get AI-generated narration for a slide."""
-    try:
-        narration = await openai_service.generate_slide_narration(slide_id)
-        return {"narration": narration, "slide_id": slide_id}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+@app.post("/api/question", response_model=QuestionResponse)
+async def handle_question(request: QuestionRequest):
+    """
+    Handle a user question/interruption.
+    Finds the most relevant slide and generates a response.
+    """
+    logger.info(f"User question: {request.question}")
+
+    result = await agent_service.handle_question(
+        question=request.question,
+        current_slide=request.current_slide
+    )
+
+    # Update agent state
+    agent_state.current_slide = result["target_slide"]
+
+    return QuestionResponse(
+        response=result["response"],
+        target_slide=result["target_slide"],
+        slide_changed=result["slide_changed"]
+    )
 
 
-# ============== WebSocket ==============
+# ============== WebSocket for Real-time Control ==============
 
 class ConnectionManager:
-    """Manages WebSocket connections."""
-
     def __init__(self):
         self.active_connections: list[WebSocket] = []
 
@@ -184,9 +220,9 @@ class ConnectionManager:
             self.active_connections.remove(websocket)
 
     async def broadcast(self, message: dict):
-        for connection in self.active_connections:
+        for conn in self.active_connections:
             try:
-                await connection.send_json(message)
+                await conn.send_json(message)
             except:
                 pass
 
@@ -196,51 +232,49 @@ manager = ConnectionManager()
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
-    """WebSocket for real-time communication and interruption."""
+    """
+    WebSocket for real-time events:
+    - interrupt: User wants to stop/interrupt
+    - speaking_start/end: TTS status updates
+    - slide_changed: Notify of slide changes
+    """
     await manager.connect(websocket)
+    logger.info("WebSocket client connected")
+
     try:
         while True:
             data = await websocket.receive_json()
-            message_type = data.get("type")
+            msg_type = data.get("type")
 
-            if message_type == "interrupt":
-                presentation_state.interrupt_flag = True
-                presentation_state.is_speaking = False
+            if msg_type == "interrupt":
+                agent_state.is_speaking = False
                 await websocket.send_json({
                     "type": "interrupt_ack",
-                    "message": "Interruption acknowledged"
+                    "current_slide": agent_state.current_slide
                 })
 
-            elif message_type == "slide_update":
-                slide_number = data.get("slide_number", 1)
-                presentation_state.current_slide = slide_number
+            elif msg_type == "speaking_start":
+                agent_state.is_speaking = True
+
+            elif msg_type == "speaking_end":
+                agent_state.is_speaking = False
+
+            elif msg_type == "slide_update":
+                slide_num = data.get("slide_number", 1)
+                agent_state.current_slide = slide_num
                 await manager.broadcast({
                     "type": "slide_changed",
-                    "slide_number": slide_number
+                    "slide_number": slide_num
                 })
 
-            elif message_type == "speaking_start":
-                presentation_state.is_speaking = True
-                presentation_state.interrupt_flag = False
-                await manager.broadcast({
-                    "type": "speaking_status",
-                    "is_speaking": True
-                })
-
-            elif message_type == "speaking_end":
-                presentation_state.is_speaking = False
-                await manager.broadcast({
-                    "type": "speaking_status",
-                    "is_speaking": False
-                })
-
-            elif message_type == "ping":
+            elif msg_type == "ping":
                 await websocket.send_json({"type": "pong"})
 
     except WebSocketDisconnect:
         manager.disconnect(websocket)
+        logger.info("WebSocket client disconnected")
     except Exception as e:
-        print(f"WebSocket error: {e}")
+        logger.error(f"WebSocket error: {e}")
         manager.disconnect(websocket)
 
 
