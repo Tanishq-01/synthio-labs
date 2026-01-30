@@ -907,3 +907,52 @@ google.api_core.exceptions.InvalidArgument: 400 Developer instruction is not ena
 2026-01-31 04:59:32,253 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
 2026-01-31 04:59:32,272 [INFO] main:lifespan:28: AI Presentation Agent starting...
 2026-01-31 04:59:34,701 [INFO] main:websocket_endpoint:242: WebSocket client connected
+2026-01-31 05:16:09,194 [INFO] main:websocket_endpoint:275: WebSocket client disconnected
+2026-01-31 05:16:09,294 [INFO] main:lifespan:30: Shutting down...
+2026-01-31 05:16:11,004 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 05:16:11,025 [INFO] main:lifespan:31: AI Presentation Agent starting...
+2026-01-31 05:16:12,707 [INFO] main:websocket_endpoint:245: WebSocket client connected
+2026-01-31 05:16:19,012 [INFO] main:websocket_endpoint:278: WebSocket client disconnected
+2026-01-31 05:16:19,113 [INFO] main:lifespan:33: Shutting down...
+2026-01-31 05:16:20,296 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 05:16:20,316 [INFO] main:lifespan:31: AI Presentation Agent starting...
+2026-01-31 05:16:22,700 [INFO] main:websocket_endpoint:250: WebSocket client connected
+2026-01-31 05:16:42,243 [INFO] main:websocket_endpoint:283: WebSocket client disconnected
+2026-01-31 05:16:42,343 [INFO] main:lifespan:33: Shutting down...
+2026-01-31 05:16:43,622 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 05:16:43,643 [INFO] main:lifespan:31: AI Presentation Agent starting...
+2026-01-31 05:16:45,698 [INFO] main:websocket_endpoint:287: WebSocket client connected
+2026-01-31 05:16:59,318 [INFO] main:websocket_endpoint:320: WebSocket client disconnected
+2026-01-31 05:16:59,417 [INFO] main:lifespan:33: Shutting down...
+2026-01-31 05:17:00,334 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 05:17:00,348 [INFO] main:lifespan:31: AI Presentation Agent starting...
+2026-01-31 05:17:02,698 [INFO] main:websocket_endpoint:293: WebSocket client connected
+2026-01-31 05:18:05,350 [INFO] main:websocket_endpoint:326: WebSocket client disconnected
+2026-01-31 05:18:05,451 [INFO] main:lifespan:33: Shutting down...
+2026-01-31 05:18:07,064 [DEBUG] asyncio:__init__:64: Using selector: KqueueSelector
+2026-01-31 05:18:07,083 [INFO] main:lifespan:31: AI Presentation Agent starting...
+2026-01-31 05:18:08,701 [INFO] main:websocket_endpoint:293: WebSocket client connected
+2026-01-31 05:18:39,708 [INFO] main:websocket_endpoint:326: WebSocket client disconnected
+2026-01-31 05:18:39,713 [INFO] main:websocket_endpoint:293: WebSocket client connected
+2026-01-31 05:18:43,697 [INFO] main:websocket_endpoint:293: WebSocket client connected
+2026-01-31 05:18:49,698 [INFO] main:websocket_endpoint:326: WebSocket client disconnected
+2026-01-31 05:18:49,702 [INFO] main:websocket_endpoint:293: WebSocket client connected
+2026-01-31 05:19:02,722 [INFO] main:websocket_endpoint:326: WebSocket client disconnected
+2026-01-31 05:19:02,724 [INFO] main:websocket_endpoint:293: WebSocket client connected
+2026-01-31 05:22:02,027 [INFO] main:set_topic:110: Generating slides for topic: YCombinator
+2026-01-31 05:22:02,028 [INFO] slides:generate_slides_for_topic:73: Generating 6 slides for topic: YCombinator
+2026-01-31 05:22:02,037 [DEBUG] grpc._cython.cygrpc:__init__:369: [_cygrpc] Loaded running loop: id(loop)=4450871552
+2026-01-31 05:22:02,037 [DEBUG] grpc._cython.cygrpc:__init__:370: Using AsyncIOEngine.POLLER as I/O engine
+2026-01-31 05:22:02,039 [DEBUG] grpc._cython.cygrpc:__init__:370: [_cygrpc] Loaded running loop: id(loop)=4450871552
+2026-01-31 05:22:02,056 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4450871552
+2026-01-31 05:22:08,448 [INFO] slides:generate_slides_for_topic:94: Successfully generated 6 slides
+2026-01-31 05:22:32,981 [INFO] openai_service:generate_slide_narration:125: Generating narration for slide 1
+2026-01-31 05:22:32,984 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4450871552
+2026-01-31 05:23:03,080 [INFO] openai_service:generate_slide_narration:125: Generating narration for slide 2
+2026-01-31 05:23:03,081 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4450871552
+2026-01-31 05:23:44,012 [INFO] openai_service:generate_slide_narration:125: Generating narration for slide 3
+2026-01-31 05:23:44,012 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4450871552
+2026-01-31 05:24:00,654 [INFO] main:handle_question:242: User question: hi can you tell me about some of the latest why combinator companies like companies in the last batch
+2026-01-31 05:24:00,655 [INFO] openai_service:handle_question:170: Handling question: hi can you tell me about some of the latest why combinator companies like companies in the last batch
+2026-01-31 05:24:53,805 [INFO] openai_service:generate_slide_narration:125: Generating narration for slide 6
+2026-01-31 05:24:53,807 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4450871552

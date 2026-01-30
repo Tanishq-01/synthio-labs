@@ -11,6 +11,12 @@ import "./App.css";
 const API_BASE = "http://localhost:8000";
 
 export default function App() {
+  // Topic state
+  const [topic, setTopic] = useState("");
+  const [numSlides, setNumSlides] = useState(6);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [hasSlides, setHasSlides] = useState(false);
+
   // Slides state
   const [slides, setSlides] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(1);
@@ -56,11 +62,49 @@ export default function App() {
       const response = await fetch(`${API_BASE}/api/slides`);
       const data = await response.json();
       setSlides(data.slides);
+      setHasSlides(data.slides && data.slides.length > 0);
       setIsLoadingSlides(false);
     } catch (error) {
       console.error("Failed to fetch slides:", error);
       setIsLoadingSlides(false);
     }
+  };
+
+  const generateSlides = async (e) => {
+    e.preventDefault();
+    if (!topic.trim()) return;
+
+    setIsGenerating(true);
+    try {
+      const response = await fetch(`${API_BASE}/api/topic`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ topic: topic.trim(), num_slides: numSlides }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to generate slides");
+      }
+
+      const data = await response.json();
+      setSlides(data.slides);
+      setHasSlides(true);
+      setCurrentSlide(1);
+    } catch (error) {
+      console.error("Failed to generate slides:", error);
+      alert("Failed to generate slides. Please try again.");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const resetPresentation = () => {
+    setSlides([]);
+    setHasSlides(false);
+    setTopic("");
+    setCurrentSlide(1);
+    setAiResponse("");
+    setIsPresenting(false);
   };
 
   // Simple speech recognition setup
@@ -276,6 +320,69 @@ export default function App() {
 
   const currentSlideData = slides[currentSlide - 1];
 
+  // Show topic input if no slides
+  if (!hasSlides && !isLoadingSlides) {
+    return (
+      <div className="app">
+        <header className="app-header">
+          <h1>AI Presentation Agent</h1>
+        </header>
+
+        <main className="app-main topic-setup">
+          <div className="topic-form-container">
+            <h2>Create Your Presentation</h2>
+            <p className="topic-description">
+              Enter a topic and the AI will generate a personalized presentation just for you.
+            </p>
+
+            <form onSubmit={generateSlides} className="topic-form">
+              <div className="form-group">
+                <label htmlFor="topic">Presentation Topic</label>
+                <input
+                  id="topic"
+                  type="text"
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
+                  placeholder="e.g., Introduction to Machine Learning"
+                  disabled={isGenerating}
+                  autoFocus
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="numSlides">Number of Slides</label>
+                <select
+                  id="numSlides"
+                  value={numSlides}
+                  onChange={(e) => setNumSlides(Number(e.target.value))}
+                  disabled={isGenerating}
+                >
+                  <option value={4}>4 slides</option>
+                  <option value={5}>5 slides</option>
+                  <option value={6}>6 slides</option>
+                  <option value={8}>8 slides</option>
+                  <option value={10}>10 slides</option>
+                </select>
+              </div>
+
+              <button
+                type="submit"
+                className="generate-btn"
+                disabled={isGenerating || !topic.trim()}
+              >
+                {isGenerating ? "Generating..." : "Generate Presentation"}
+              </button>
+            </form>
+          </div>
+        </main>
+
+        <footer className="app-footer">
+          <p>Powered by AI • 1:1 Personalized Presentations</p>
+        </footer>
+      </div>
+    );
+  }
+
   return (
     <div className="app">
       <header className="app-header">
@@ -283,6 +390,11 @@ export default function App() {
         <div className="header-status">
           <span className={`status-dot ${isConnected ? "connected" : ""}`} />
           {isPresenting ? "Presenting" : "Ready"}
+          {!isPresenting && (
+            <button className="new-topic-btn" onClick={resetPresentation}>
+              New Topic
+            </button>
+          )}
         </div>
       </header>
 

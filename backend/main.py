@@ -19,7 +19,10 @@ logger = logging.getLogger(__name__)
 
 load_dotenv()
 
-from slides import get_all_slides, get_slide, get_slide_count
+from slides import (
+    get_all_slides, get_slide, get_slide_count,
+    generate_slides_for_topic, has_slides, get_current_topic
+)
 import openai_service as agent_service
 
 
@@ -42,6 +45,11 @@ app.add_middleware(
 
 
 # ============== Models ==============
+
+class TopicRequest(BaseModel):
+    topic: str
+    num_slides: int = 6
+
 
 class QuestionRequest(BaseModel):
     question: str
@@ -87,6 +95,43 @@ async def health_check():
     return {"status": "healthy", "agent": "gemini-presentation-agent"}
 
 
+# ============== Topic & Slide Generation ==============
+
+@app.post("/api/topic")
+async def set_topic(request: TopicRequest):
+    """
+    Set the presentation topic and generate slides.
+    Must be called before starting the presentation.
+    """
+    if not request.topic.strip():
+        raise HTTPException(status_code=400, detail="Topic cannot be empty")
+
+    try:
+        logger.info(f"Generating slides for topic: {request.topic}")
+        slides = await generate_slides_for_topic(request.topic, request.num_slides)
+        agent_state.reset()
+
+        return {
+            "status": "success",
+            "topic": request.topic,
+            "slides": slides,
+            "total": len(slides)
+        }
+    except Exception as e:
+        logger.error(f"Failed to generate slides: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to generate slides: {str(e)}")
+
+
+@app.get("/api/topic")
+async def get_topic():
+    """Get the current presentation topic."""
+    topic = get_current_topic()
+    return {
+        "topic": topic,
+        "has_slides": has_slides()
+    }
+
+
 @app.get("/api/slides")
 async def get_slides():
     """Get all slides for display."""
@@ -120,6 +165,12 @@ async def start_presentation():
     Start the presentation from slide 1.
     Returns the first slide's narration.
     """
+    if not has_slides():
+        raise HTTPException(
+            status_code=400,
+            detail="No slides available. Please set a topic first using POST /api/topic"
+        )
+
     agent_state.current_slide = 1
     agent_state.is_presenting = True
 
@@ -165,7 +216,7 @@ async def present_next_slide():
     if next_slide > total:
         # Presentation complete
         return PresentResponse(
-            narration="That concludes our presentation. Thank you for listening! Feel free to ask any questions.",
+            narration="That brings us to the end of the presentation. Thank you for your time today! If you have any questions about what we covered, feel free to ask.",
             current_slide=total,
             has_next=False,
             next_slide=None
