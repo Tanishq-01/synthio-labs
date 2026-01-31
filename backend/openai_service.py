@@ -66,7 +66,7 @@ def get_slide_tools():
 def get_qa_model():
     """Get the Q&A model with current context."""
     return genai.GenerativeModel(
-        model_name="models/gemini-2.5-flash-lite",
+        model_name="models/gemini-2.5-flash",
         tools=get_slide_tools(),
         system_instruction=get_presenter_prompt()
     )
@@ -74,7 +74,7 @@ def get_qa_model():
 
 # Model for narration (doesn't need dynamic tools)
 narration_model = genai.GenerativeModel(
-    model_name="models/gemini-2.5-flash-lite",
+    model_name="models/gemini-2.5-flash",
     system_instruction="""You are an engaging presentation narrator giving a 1:1 presentation.
 Speak directly to the person (use "you", not "everyone" or "audience").
 Generate detailed, thorough narrations of 75-100 words per slide.

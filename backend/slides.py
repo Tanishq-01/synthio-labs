@@ -15,7 +15,7 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 # Model for slide generation
 slide_generator = genai.GenerativeModel(
-    model_name="models/gemini-2.5-flash-lite",
+    model_name="models/gemini-2.5-flash",
     system_instruction="""You are an expert presentation creator. Generate clear, well-structured presentation slides.
 Always respond with valid JSON only, no markdown or extra text."""
 )
