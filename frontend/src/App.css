@@ -19,18 +19,24 @@
   --sidebar-width: 280px;
 }
 
+html, body, #root {
+  min-height: 100vh;
+  width: 100%;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-primary);
-  min-height: 100vh;
 }
 
 /* App Container - Full viewport */
 .app-container {
   min-height: 100vh;
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 /* Main App Area */
@@ -40,7 +46,6 @@ body {
   min-height: 100vh;
   width: 100%;
   max-width: 900px;
-  margin: 0 auto;
   padding: 1rem 2rem;
 }
 
@@ -263,6 +268,7 @@ body {
 .app-main > * {
   width: 100%;
   max-width: 800px;
+  margin: 0 auto;
 }
 
 /* ============== Topic Setup Screen ============== */

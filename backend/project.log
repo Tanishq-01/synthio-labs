@@ -1312,3 +1312,25 @@ google.api_core.exceptions.NotFound: 404 models/gemini-3-flash is not found for 
 2026-01-31 06:08:57,125 [DEBUG] grpc._cython.cygrpc:__init__:370: [_cygrpc] Loaded running loop: id(loop)=4406618368
 2026-01-31 06:08:57,135 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4406618368
 2026-01-31 06:09:07,369 [INFO] slides:generate_slides_for_topic:94: Successfully generated 6 slides
+2026-01-31 06:11:18,483 [INFO] main:set_topic:110: Generating slides for topic: Virat Kohli
+2026-01-31 06:11:18,487 [INFO] slides:generate_slides_for_topic:73: Generating 6 slides for topic: Virat Kohli
+2026-01-31 06:11:18,496 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4406618368
+2026-01-31 06:11:26,490 [INFO] slides:generate_slides_for_topic:94: Successfully generated 6 slides
+2026-01-31 06:18:34,115 [INFO] openai_service:generate_slide_narration:125: Generating narration for slide 1
+2026-01-31 06:18:34,118 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4406618368
+2026-01-31 06:19:17,625 [INFO] main:set_topic:110: Generating slides for topic: YCombinator
+2026-01-31 06:19:17,625 [INFO] slides:generate_slides_for_topic:73: Generating 6 slides for topic: YCombinator
+2026-01-31 06:19:17,626 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4406618368
+2026-01-31 06:19:26,264 [INFO] slides:generate_slides_for_topic:94: Successfully generated 6 slides
+2026-01-31 06:19:29,361 [INFO] openai_service:generate_slide_narration:125: Generating narration for slide 1
+2026-01-31 06:19:29,361 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4406618368
+2026-01-31 06:19:48,442 [INFO] main:set_topic:110: Generating slides for topic: Synthio Labs
+2026-01-31 06:19:48,443 [INFO] slides:generate_slides_for_topic:73: Generating 6 slides for topic: Synthio Labs
+2026-01-31 06:19:48,443 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4406618368
+2026-01-31 06:19:59,517 [INFO] slides:generate_slides_for_topic:94: Successfully generated 6 slides
+2026-01-31 06:20:21,006 [INFO] main:set_topic:110: Generating slides for topic: YCombinator
+2026-01-31 06:20:21,006 [INFO] slides:generate_slides_for_topic:73: Generating 6 slides for topic: YCombinator
+2026-01-31 06:20:21,007 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4406618368
+2026-01-31 06:20:30,031 [INFO] slides:generate_slides_for_topic:94: Successfully generated 6 slides
+2026-01-31 06:20:33,576 [INFO] openai_service:generate_slide_narration:125: Generating narration for slide 1
+2026-01-31 06:20:33,577 [DEBUG] grpc._cython.cygrpc:__init__:562: [_cygrpc] Loaded running loop: id(loop)=4406618368
