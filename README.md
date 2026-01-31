@@ -13,13 +13,13 @@ An AI-powered voice application that generates and presents slides on any topic 
 ## Screenshots
 
 ### Topic Selection
-![Topic Entry](imgs/Screenshot%202026-01-31%20at%206.17.56%20AM.png)
+![Topic Entry](imgs/topic-entry.png)
 
 ### Slide View
-![Slide View](imgs/Screenshot%202026-01-31%20at%206.17.30%20AM.png)
+![Slide View](imgs/slide-view.png)
 
 ### AI Presenting
-![AI Presenting](imgs/Screenshot%202026-01-31%20at%206.20.44%20AM.png)
+![AI Presenting](imgs/presenting.png)
 
 ## Getting Started
 
